@@ -11,5 +11,10 @@
 
     <artifactId>authority-start</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>com.kangge.authenticate</groupId>
+            <artifactId>authority-web</artifactId>
+        </dependency>
+    </dependencies>
 </project>

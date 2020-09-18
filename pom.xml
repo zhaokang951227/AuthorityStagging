@@ -24,6 +24,20 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <skipTests>true</skipTests>
+        <!--        <docker.host>http://192.168.3.101:2375</docker.host>-->
+        <!--        <docker.maven.plugin.version>1.1.0</docker.maven.plugin.version>-->
+        <spring-cloud.version>Hoxton.SR5</spring-cloud.version>
+        <spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
+        <!--        <druid.version>1.1.10</druid.version>-->
+        <hutool.version>4.5.7</hutool.version>
+        <!--        <mysql-connector.version>8.0.16</mysql-connector.version>-->
+        <spring-data-commons.version>2.3.0.RELEASE</spring-data-commons.version>
+        <!--   <logstash-logback.version>5.3</logstash-logback.version>-->
+        <admin-starter-server.version>2.2.3</admin-starter-server.version>
+        <mall-common.version>1.0-SNAPSHOT</mall-common.version>
     </properties>
 
     <dependencies>
@@ -43,15 +57,154 @@
                 </exclusion>
             </exclusions>
         </dependency>
-    </dependencies>
 
+        <!--Spring Cloud 相关依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>${spring-cloud.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+        <!--Spring Cloud Alibaba 相关依赖-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+            <version>${spring-cloud-alibaba.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--集成druid连接池-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.alibaba</groupId>-->
+        <!--            <artifactId>druid-spring-boot-starter</artifactId>-->
+        <!--            <version>${druid.version}</version>-->
+        <!--        </dependency>-->
+        <!--Mysql数据库驱动-->
+        <!--        <dependency>-->
+        <!--            <groupId>mysql</groupId>-->
+        <!--            <artifactId>mysql-connector-java</artifactId>-->
+        <!--            <version>${mysql-connector.version}</version>-->
+        <!--        </dependency>-->
+        <!--Hutool Java工具包-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <!--集成logstash-->
+        <!--        <dependency>-->
+        <!--            <groupId>net.logstash.logback</groupId>-->
+        <!--            <artifactId>logstash-logback-encoder</artifactId>-->
+        <!--            <version>${logstash-logback.version}</version>-->
+        <!--        </dependency>-->
+        <!--集成SpringBoot Admin监控-->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-server</artifactId>
+            <version>${admin-starter-server.version}</version>
+        </dependency>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <!-- 应用自身模块-->
+            <dependency>
+                <groupId>com.kangge.authenticate</groupId>
+                <artifactId>authority-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kangge.authenticate</groupId>
+                <artifactId>authority-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kangge.authenticate</groupId>
+                <artifactId>authority-client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kangge.authenticate</groupId>
+                <artifactId>authority-start</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <!--Spring Cloud 相关依赖-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--Spring Cloud Alibaba 相关依赖-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!--  <plugin>
+                  <groupId>com.spotify</groupId>
+                  <artifactId>docker-maven-plugin</artifactId>
+                  <version>${docker.maven.plugin.version}</version>
+                  &lt;!&ndash;<executions>&ndash;&gt;
+                  &lt;!&ndash;<execution>&ndash;&gt;
+                  &lt;!&ndash;<id>build-image</id>&ndash;&gt;
+                  &lt;!&ndash;<phase>package</phase>&ndash;&gt;
+                  &lt;!&ndash;<goals>&ndash;&gt;
+                  &lt;!&ndash;<goal>build</goal>&ndash;&gt;
+                  &lt;!&ndash;</goals>&ndash;&gt;
+                  &lt;!&ndash;</execution>&ndash;&gt;
+                  &lt;!&ndash;</executions>&ndash;&gt;
+                  <configuration>
+                      <imageName>mall/${project.artifactId}:${project.version}</imageName>
+                      <dockerHost>${docker.host}</dockerHost>
+                      <baseImage>java:8</baseImage>
+                      <entryPoint>["java", "-jar", "-Dspring.profiles.active=prod","/${project.build.finalName}.jar"]</entryPoint>
+                      <resources>
+                          <resource>
+                              <targetPath>/</targetPath>
+                              <directory>${project.build.directory}</directory>
+                              <include>${project.build.finalName}.jar</include>
+                          </resource>
+                      </resources>
+                  </configuration>
+              </plugin>-->
         </plugins>
     </build>
-
 </project>
