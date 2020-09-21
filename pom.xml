@@ -9,6 +9,7 @@
         <module>authority-client</module>
         <module>authority-start</module>
         <module>authority-web</module>
+        <module>demo</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -78,6 +79,10 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

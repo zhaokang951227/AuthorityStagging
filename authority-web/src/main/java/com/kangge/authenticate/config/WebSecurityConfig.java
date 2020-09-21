@@ -20,26 +20,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserServiceDetail detailsService;
+//    @Autowired
+//    private UserServiceDetail detailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(detailsService).passwordEncoder(passwordEncoder());
-        //内存存储
-        //        auth
-        //                .inMemoryAuthentication()
-        //                .passwordEncoder(passwordEncoder())
-        //                .withUser("user")
-        //                .password(passwordEncoder().encode("user"))
-        //                .roles("USER");
-
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(detailsService).passwordEncoder(passwordEncoder());
+//        //内存存储
+//        //        auth
+//        //                .inMemoryAuthentication()
+//        //                .passwordEncoder(passwordEncoder())
+//        //                .withUser("user")
+//        //                .password(passwordEncoder().encode("user"))
+//        //                .roles("USER");
+//
+//    }
 
     /**
      * 配置了默认表单登陆以及禁用了 csrf 功能，并开启了httpBasic 认证
@@ -49,14 +49,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http    // 配置登陆页/login并允许访问
-                .formLogin().permitAll()
-                // 登出页
-                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/")
-                // 其余所有请求全部需要鉴权认证
-                .and().authorizeRequests().anyRequest().authenticated()
-                // 由于使用的是JWT，我们这里不需要csrf
-                .and().csrf().disable();
+        http     .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/oauth/**", "/login/**", "/logout/**")
+                .permitAll()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .formLogin()
+                .permitAll();
     }
 
     @Override
